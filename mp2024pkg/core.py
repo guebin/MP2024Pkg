@@ -1,6 +1,6 @@
 from collections.abc import Iterable
 
-def show_nested(item, max_depth=2, max_items=5):
+def show_list(item, max_depth=2, max_items=5):
     """Displays type, length, and content of nested items up to level 2."""
     
     # Level 1 information
