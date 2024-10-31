@@ -1,1 +1,1 @@
-from ._show import show_dict, show_nested
+from ._core import show_dict, show_nested
