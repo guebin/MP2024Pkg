@@ -1,6 +1,6 @@
 from collections.abc import Iterable
 
-def show_dict_info(dct):
+def show_dict(dct):
     """Displays an overview of a dictionary's keys, type, length, and limited values."""
     print("Dictionary Overview:")
     print(f"Total keys: {len(dct.keys())}")
@@ -26,16 +26,22 @@ def show_nested(item, level=1, max_depth=2):
     """Displays type, length, and example values of nested items up to the specified depth."""
     if level > max_depth:
         return
-    
+
+    # 아이템 타입과 길이 정보 확인
     item_type = type(item).__name__
-    item_len = len(item) if hasattr(item, '__len__') else None
-    
+    try:
+        item_len = len(item)
+    except TypeError:
+        item_len = None  # 길이를 구할 수 없는 경우
+
+    # 예시 문자열 생성 (중간 생략)
     item_str = repr(item)
     if len(item_str) > 50:
         example = f"{item_str[:25]} ... {item_str[-25:]}"
     else:
         example = item_str
 
+    # 출력 정보 포맷팅
     info = f"{' ' * (level - 1) * 5}Level {level} - Type: {item_type}"
     if item_len is not None:
         info += f", Length: {item_len}"
@@ -43,6 +49,10 @@ def show_nested(item, level=1, max_depth=2):
     
     print(info)
 
+    # Iterable을 확인하고 길이 구할 수 없는 경우 반복하지 않음
     if isinstance(item, Iterable) and not isinstance(item, (str, bytes)):
+        if item_len is None:
+            return  # 길이를 구할 수 없는 객체는 반복하지 않음
         for subitem in item:
             show_nested(subitem, level + 1, max_depth)
+
