@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="MP2024Pkg",
+    name="mp2024pkg",
     version="1.0",
     packages=find_packages(),
     description="A package for displaying dictionary and nested structure information",
