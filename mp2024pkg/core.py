@@ -110,7 +110,7 @@ def tree(start_path='.', prefix='', max_depth=5, current_depth=0):
         
         if os.path.isdir(path):  # 디렉터리인 경우
             new_prefix = '    ' if i == len(display_files) - 1 else '│   '
-            print_directory_tree(path, prefix + new_prefix, max_depth, current_depth + 1)
+            tree(path, prefix + new_prefix, max_depth, current_depth + 1)
 
 def signature(func):
     """
