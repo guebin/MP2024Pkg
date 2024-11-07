@@ -78,7 +78,7 @@ def show_dict(dct):
 
 def tree(start_path='.', prefix='', max_depth=5, current_depth=0):
     """
-    현재 디렉터리 구조를 트리 형식으로 출력하되, 지정된 깊이를 초과하거나 파일이 너무 많을 경우 생략.
+    현재 디렉터리 구조를 트리 형식으로 출력하되, 지정된 깊이를 초과하거나 파일이 너무 많을 경우 생략한다.
     
     Parameters:
     - start_path: 탐색을 시작할 디렉터리 경로 (기본값: 현재 디렉터리 '.')
@@ -111,8 +111,6 @@ def tree(start_path='.', prefix='', max_depth=5, current_depth=0):
         if os.path.isdir(path):  # 디렉터리인 경우
             new_prefix = '    ' if i == len(display_files) - 1 else '│   '
             print_directory_tree(path, prefix + new_prefix, max_depth, current_depth + 1)
-
-
 
 def signature(func):
     """
