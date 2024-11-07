@@ -1,4 +1,7 @@
 from collections.abc import Iterable
+import os 
+import inspect
+import IPython.display
 
 def show_list(item, max_depth=2, max_items=5):
     """Displays type, length, and content of nested items up to level 2."""
@@ -72,3 +75,64 @@ def show_dict(dct):
         # 값 출력
         print(f"   - Values: {display_values}")
         print()  # 공백 줄 추가
+
+def tree(start_path='.', prefix='', max_depth=5, current_depth=0):
+    """
+    현재 디렉터리 구조를 트리 형식으로 출력하되, 지정된 깊이를 초과하거나 파일이 너무 많을 경우 생략.
+    
+    Parameters:
+    - start_path: 탐색을 시작할 디렉터리 경로 (기본값: 현재 디렉터리 '.')
+    - prefix: 트리 구조에서 들여쓰기 역할을 할 문자열
+    - max_depth: 최대 탐색 깊이. 이 깊이를 초과하면 생략함.
+    - current_depth: 현재 탐색 깊이 (내부적으로 사용됨)
+    """
+    if current_depth > max_depth:
+        print(prefix + "└── ...")
+        return
+
+    files = os.listdir(start_path)
+    files.sort()  # 알파벳 순으로 정렬
+    
+    # 파일이 너무 많으면 앞 3개, 뒤 3개만 표시하고 중간 생략
+    if len(files) > 6:
+        display_files = files[:3] + ["..."] + files[-3:]
+    else:
+        display_files = files
+
+    for i, name in enumerate(display_files):
+        path = os.path.join(start_path, name)
+        if name == "...":
+            print(prefix + "└── " + name)
+            continue
+        
+        connector = '└── ' if i == len(display_files) - 1 else '├── '
+        print(prefix + connector + name)
+        
+        if os.path.isdir(path):  # 디렉터리인 경우
+            new_prefix = '    ' if i == len(display_files) - 1 else '│   '
+            print_directory_tree(path, prefix + new_prefix, max_depth, current_depth + 1)
+
+
+
+def signature(func):
+    """
+    주어진 함수 또는 메서드의 서명을 보기 좋게 출력한다.
+    
+    Parameters:
+    - func: 서명을 출력할 함수 또는 메서드
+    """
+    # 함수의 서명을 가져오기
+    sig = inspect.signature(func)
+    # 인수 부분을 줄바꿈하여 보기 좋게 포맷팅
+    parameters = "\n".join([f"    {name}: {param.annotation} = {param.default}" 
+                            for name, param in sig.parameters.items()])
+    return_annotation = sig.return_annotation
+
+    # 서명 전체를 포맷팅하여 Markdown으로 출력
+    formatted_signature = f"""```python
+{func.__qualname__}(
+{parameters}
+) -> {return_annotation}
+```"""
+
+    IPython.display.display(IPython.display.Markdown(formatted_signature))
