@@ -74,7 +74,6 @@ def show_dict(dct):
 
         # 값 출력
         print(f"   - Values: {display_values}")
-        print()  # 공백 줄 추가
 
 def tree(start_path='.', prefix='', max_depth=5, current_depth=0):
     """
