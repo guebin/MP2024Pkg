@@ -35,7 +35,7 @@ def show_list(items, max_depth=2, max_head=5, max_tail=5):
             item_len = None
 
         # Print item details
-        print(f"\n{index + 1}. items[{index}]")
+        print(f"\n{index + 1}. list[{index}]")
         print(f"   - Type: {item_type}")
         if item_len is not None:
             print(f"   - Length: {item_len}")
@@ -49,7 +49,7 @@ def show_dict(dct):
     print(f"Keys: {list(dct.keys())}\n")
     
     for i, (key, value) in enumerate(dct.items()):
-        print(f"{i + 1}. dct['{key}']")
+        print(f"{i + 1}. dict['{key}']")
         print(f"   - Type: {type(value).__name__}")
 
         # Display length if possible
