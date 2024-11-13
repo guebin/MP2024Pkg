@@ -190,6 +190,7 @@ def show(item, max_depth=2, max_head_items=5, max_tail_items=5, max_value_length
     item_type = type(item).__name__
     
     try: 
+        item.keys()
         print("Dictionary Overview:")
         print(f"Total keys: {len(item.keys())}")
         print(f"Keys: {list(item.keys())}\n")
