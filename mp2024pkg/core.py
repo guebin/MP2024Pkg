@@ -237,3 +237,6 @@ def show(item, max_depth=2, max_head_items=5, max_tail_items=5, max_value_length
 
     else:
         print(f"Unsupported item type: {item_type}")
+
+    else:
+        print(f"Unsupported item type: {item_type}")
