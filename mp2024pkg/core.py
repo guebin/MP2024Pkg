@@ -179,7 +179,6 @@ def tab(module, include_private=False):
 
 def show(item, max_depth=2, max_head_items=5, max_tail_items=5, max_value_length=100000):
     """Displays type, length, and content of list or dictionary in a structured format, truncating long values."""
-
     def truncate_value(value):
         """Truncates the value to show only the first 100 and last 100 words if it is too long."""
         value_str = str(value)
@@ -190,38 +189,7 @@ def show(item, max_depth=2, max_head_items=5, max_tail_items=5, max_value_length
 
     item_type = type(item).__name__
     
-    # Handling List
-    if isinstance(item, list):
-        try:
-            item_len = len(item)
-        except TypeError:
-            item_len = None
-        
-        print("List Overview:")
-        if item_len is not None:
-            print(f"Total items: {item_len}")
-        
-        # Display list items with head and tail view
-        for idx, subitem in enumerate(item):
-            if idx >= max_head_items and idx < item_len - max_tail_items:
-                if idx == max_head_items:
-                    print("...")
-                continue
-
-            subitem_type = type(subitem).__name__
-            try:
-                subitem_len = len(subitem)
-            except TypeError:
-                subitem_len = None
-
-            print(f"\n{idx + 1}. list[{idx}]")
-            print(f"   - Type: {subitem_type}")
-            if subitem_len is not None:
-                print(f"   - Length: {subitem_len}")
-            print(f"   - Values: {truncate_value(subitem)}")
-    
-    # Handling Dictionary
-    elif isinstance(item, dict):
+    try: 
         print("Dictionary Overview:")
         print(f"Total keys: {len(item.keys())}")
         print(f"Keys: {list(item.keys())}\n")
@@ -234,9 +202,34 @@ def show(item, max_depth=2, max_head_items=5, max_tail_items=5, max_value_length
                 print(f"   - Length: {len(v)}")
             
             print(f"   - Values: {truncate_value(v)}")
+    except:
+        if isinstance(item, Iterable):
+            try:
+                item_len = len(item)
+            except TypeError:
+                item_len = None
+            
+            print("List Overview:")
+            if item_len is not None:
+                print(f"Total items: {item_len}")
+            
+            # Display list items with head and tail view
+            for idx, subitem in enumerate(item):
+                if idx >= max_head_items and idx < item_len - max_tail_items:
+                    if idx == max_head_items:
+                        print("...")
+                    continue
 
-    else:
-        print(f"Unsupported item type: {item_type}")
+                subitem_type = type(subitem).__name__
+                try:
+                    subitem_len = len(subitem)
+                except TypeError:
+                    subitem_len = None
 
-    else:
-        print(f"Unsupported item type: {item_type}")
+                print(f"\n{idx + 1}. list[{idx}]")
+                print(f"   - Type: {subitem_type}")
+                if subitem_len is not None:
+                    print(f"   - Length: {subitem_len}")
+                print(f"   - Values: {truncate_value(subitem)}")    
+        else:
+            print(f"Unsupported item type: {item_type}")
