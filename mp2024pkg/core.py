@@ -102,21 +102,28 @@ def signature(func):
     Parameters:
     - func: 서명을 출력할 함수 또는 메서드
     """
-    # 함수의 서명을 가져오기
-    sig = inspect.signature(func)
-    # 인수 부분을 줄바꿈하여 보기 좋게 포맷팅
-    parameters = "\n".join([f"    {name}: {param.annotation} = {param.default}" 
-                            for name, param in sig.parameters.items()])
-    return_annotation = sig.return_annotation
+    # 함수 또는 메서드의 서명을 가져오기
+    try:
+        sig = inspect.signature(func)
+        # 인수 부분을 줄바꿈하여 보기 좋게 포맷팅
+        parameters = "\n".join([f"    {name}: {param.annotation} = {param.default}" 
+                                for name, param in sig.parameters.items()])
+        return_annotation = sig.return_annotation
 
-    # 서명 전체를 포맷팅하여 Markdown으로 출력
-    formatted_signature = f"""```python
-{func.__qualname__}(
+        # func가 함수일 경우 __qualname__을 사용, 그렇지 않으면 클래스 이름을 사용
+        func_name = func.__qualname__ if hasattr(func, '__qualname__') else func.__class__.__name__
+
+        # 서명 전체를 포맷팅하여 Markdown으로 출력
+        formatted_signature = f"""```python
+{func_name}(
 {parameters}
 ) -> {return_annotation}
 ```"""
 
-    IPython.display.display(IPython.display.Markdown(formatted_signature))
+        IPython.display.display(IPython.display.Markdown(formatted_signature))
+
+    except AttributeError:
+        print("The provided object does not have a valid signature.")
 
 
 def tab(module, include_private=False):
