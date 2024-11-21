@@ -59,7 +59,7 @@ def show_dict(dct):
         # Display value
         print(f"   - Value: {value}")
 
-def tree(start_path='.', prefix='', max_depth=5, current_depth=0):
+def tree(start_path='.', max_files=10, prefix='', max_depth=5, current_depth=0):
     """
     현재 디렉터리 구조를 트리 형식으로 출력하되, 지정된 깊이를 초과하거나 파일이 너무 많을 경우 생략한다.
     
@@ -77,8 +77,8 @@ def tree(start_path='.', prefix='', max_depth=5, current_depth=0):
     files.sort()  # 알파벳 순으로 정렬
     
     # 파일이 너무 많으면 중간 생략
-    if len(files) > 4:
-        display_files = files[:2] + ["..."] + files[-1:]
+    if len(files) > max_files:
+        display_files = files[:max_files//2] + ["..."] + files[-max_files//2:]
     else:
         display_files = files
 
