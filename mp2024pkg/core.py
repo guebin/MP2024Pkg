@@ -59,41 +59,41 @@ def show_dict(dct):
         # Display value
         print(f"   - Value: {value}")
 
-def tree(start_path='.', max_files=10, prefix='', max_depth=5, current_depth=0):
+def tree(start_path='.', max_files=60, max_depth=5, current_depth=0):
     """
-    현재 디렉터리 구조를 트리 형식으로 출력하되, 지정된 깊이를 초과하거나 파일이 너무 많을 경우 생략한다.
-    
+    Displays the directory structure in a tree format, limiting depth and the number of files displayed.
+
     Parameters:
-    - start_path: 탐색을 시작할 디렉터리 경로 (기본값: 현재 디렉터리 '.')
-    - prefix: 트리 구조에서 들여쓰기 역할을 할 문자열
-    - max_depth: 최대 탐색 깊이. 이 깊이를 초과하면 생략함.
-    - current_depth: 현재 탐색 깊이 (내부적으로 사용됨)
+    - start_path: The directory path to start exploring (default: current directory '.').
+    - max_files: Maximum number of files to display per directory. If exceeded, the middle will be truncated.
+    - max_depth: Maximum depth to explore. Any depth beyond this will be truncated.
+    - current_depth: The current depth of the directory being explored (used internally).
     """
     if current_depth > max_depth:
-        print(prefix + "└── ...")
+        print("└── ...")
         return
 
     files = os.listdir(start_path)
-    files.sort()  # 알파벳 순으로 정렬
+    files.sort()  # Sort alphabetically
     
-    # 파일이 너무 많으면 중간 생략
+    # Truncate files if too many
     if len(files) > max_files:
-        display_files = files[:max_files//2] + ["..."] + files[-max_files//2:]
+        display_files = files[:max_files // 2] + ["..."] + files[-max_files // 2:]
     else:
         display_files = files
 
     for i, name in enumerate(display_files):
         path = os.path.join(start_path, name)
         if name == "...":
-            print(prefix + "└── " + name)
+            print("└── " + name)
             continue
         
         connector = '└── ' if i == len(display_files) - 1 else '├── '
-        print(prefix + connector + name)
+        print(connector + name)
         
-        if os.path.isdir(path):  # 디렉터리인 경우
+        if os.path.isdir(path):  # If the path is a directory
             new_prefix = '    ' if i == len(display_files) - 1 else '│   '
-            tree(path, prefix + new_prefix, max_depth, current_depth + 1)
+            tree(path, max_files, max_depth, current_depth + 1)
 
 def signature(func):
     """
